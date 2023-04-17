@@ -1,5 +1,7 @@
 import React from 'react';
 import useSpeechToText from 'react-hook-speech-to-text';
+import CallChatGPTAPI from './callChatGPT';
+
 //https://github.com/Riley-Brown/react-speech-to-text
 export default function AnyComponent() {
   const {
@@ -25,7 +27,8 @@ export default function AnyComponent() {
       </button>
       <ul>
         {results.map((result) => (
-          <li key={result.timestamp}>{result.transcript}</li>
+          // <li key={result.timestamp}>asdf{result.transcript}</li>
+          <CallChatGPTAPI stt_result={result.transcript}/>
         ))}
         {interimResult && <li>{interimResult}</li>}
       </ul>
