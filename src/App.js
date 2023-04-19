@@ -2,6 +2,8 @@ import React from 'react';
 import useSpeechToText from 'react-hook-speech-to-text';
 import CallChatGPTAPI from './callChatGPT';
 
+import NavBar from './NavBar.js'
+
 //https://github.com/Riley-Brown/react-speech-to-text
 export default function AnyComponent() {
   const {
@@ -15,12 +17,13 @@ export default function AnyComponent() {
     continuous: true,
     googleApiKey: '9d3eda7871a426914b3a1042b35f9d63583c7241',
     useLegacyResults: false
-});
+  });
 
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
 
   return (
     <div>
+      <NavBar />
       <h1>Recording: {isRecording.toString()}</h1>
       <button onClick={isRecording ? stopSpeechToText : startSpeechToText}>
         {isRecording ? 'Stop Recording' : 'Start Recording'}
@@ -28,7 +31,7 @@ export default function AnyComponent() {
       <ul>
         {results.map((result) => (
           // <li key={result.timestamp}>asdf{result.transcript}</li>
-          <CallChatGPTAPI stt_result={result.transcript}/>
+          <CallChatGPTAPI stt_result={result.transcript} />
         ))}
         {interimResult && <li>{interimResult}</li>}
       </ul>

@@ -1,0 +1,11 @@
+h2 {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.toolbar-logo {
+    height: 50px;
+    width: 50px;
+    margin-right: 1px;
+    display: flex;
+    padding-right: 20px;
+}
