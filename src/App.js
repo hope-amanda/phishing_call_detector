@@ -1,6 +1,6 @@
 import React from 'react';
 import useSpeechToText from 'react-hook-speech-to-text';
-import CallChatGPTAPI from './callChatGPT';
+import RenderChatGPT from './callChatGPT';
 
 import NavBar from './NavBar.js'
 
@@ -31,7 +31,7 @@ export default function AnyComponent() {
       <ul>
         {results.map((result) => (
           // <li key={result.timestamp}>asdf{result.transcript}</li>
-          <CallChatGPTAPI stt_result={result.transcript} />
+          <RenderChatGPT stt_result={result.transcript} />
         ))}
         {interimResult && <li>{interimResult}</li>}
       </ul>
