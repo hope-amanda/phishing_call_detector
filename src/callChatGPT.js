@@ -1,9 +1,10 @@
 import {v4 as uuidv4} from 'uuid';
 const { Configuration, OpenAIApi } = require("openai");
+const React = require('react');
 
-export default async function CallChatGPTAPI({stt_result}) {
+async function CallChatGPTAPI(stt_result) {
     const configuration = new Configuration({
-        apiKey: "your api key here ;)",
+        apiKey: "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",
       });
       const openai = new OpenAIApi(configuration);
       
@@ -18,8 +19,21 @@ export default async function CallChatGPTAPI({stt_result}) {
         stop: [" Human:", " AI:"],
       });
 
-      console.log(response);
-    
+    // Extract the first choice as a string
+    const choice = response.data.choices[0];
+    return choice.text;
+}
+
+export default function RenderChatGPT({stt_result}) {
+    const [response, setResponse] = React.useState("");
+
+    React.useEffect(() => {
+        CallChatGPTAPI(stt_result).then((ret) => {
+            console.log(ret);
+          setResponse(ret);
+        });
+      }, [stt_result]);
+
     return (
         <ul>
             <li>
