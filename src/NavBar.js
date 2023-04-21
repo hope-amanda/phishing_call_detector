@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Avatar, Button, IconButton, Menu, MenuItem, Modal, Tooltip } from '@mui/material';
 import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 import './NavBar.css';
@@ -36,7 +38,7 @@ function ResponsiveAppBar() {
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
+        borderRadius: 8,
         boxShadow: 24,
         p: 4,
     };
@@ -46,8 +48,7 @@ function ResponsiveAppBar() {
     const handleClose = () => setOpen(false);
 
     return (
-        // <AppBar position="static">
-        <AppBar position="static" >
+        <AppBar position="static" sx={{ margin: '0', backgroundColor: '#006699' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <img class="toolbar-logo" src="fish circle logo.png"></img>
@@ -88,55 +89,38 @@ function ResponsiveAppBar() {
                     >
                         GONE PHISHING
                     </Typography>
-                    <Box>
+                    <Box >
                         <Tooltip title="About Gone Phishing">
                             <IconButton style={{ borderRadius: 0, height: "45px" }} onClick={handleOpenUserMenu} sixe='small' color='inherit'>
                                 <h6>ABOUT</h6>
                             </IconButton>
                         </Tooltip>
-                        {/* <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                        <Modal
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
+                            id="menu-appbar"
                         >
-                            {/* {settings.map((setting) => ( */}
-
-
-
-
-                        {/* // <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                //     <Typography textAlign="center">{setting}</Typography>
-                                // </MenuItem> 
-                            ))} */}
-                        {/* </Menu> */}
+                            <Box sx={style}>
+                                <Box sx={{
+                                    display: 'flex', justifyContent: 'flex-end', mb: 1, display: "inline-block", position: 'absolute',
+                                    left: '94%', top: '-5%', backgroundColor: '#E8E8E8', borderRadius: '30px'
+                                }}>
+                                    <IconButton variant="outlined" onClick={handleCloseUserMenu} sx={{ color: 'black' }}>
+                                        <CloseIcon />
+                                    </IconButton>
+                                </Box>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                    About Gone Phishing
+                                </Typography>
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                    Gone Phishing is a tool to help you detect scam phone callers in real-time.
+                                    Simply click "start recording" on the website when you answer a phone call,
+                                    and Gone Phishing will help you decide whether or not the call is fraudulent.
+                                </Typography>
+                            </Box>
+                        </Modal>
                     </Box>
                 </Toolbar>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
-                    </Box>
-                </Modal>
             </Container>
         </AppBar >
     );
