@@ -1,20 +1,23 @@
-import {v4 as uuidv4} from 'uuid';
 const { Configuration, OpenAIApi } = require("openai");
 const React = require('react');
 
+var seen = new Set();
+
 async function CallChatGPTAPI(stt_result) {
+    console.log("stt_result has changed", stt_result);
+    console.log("logging api key", process.env.REACT_APP_OPENAI_API_KEY);
     const configuration = new Configuration({
-        apiKey: "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",
+        apiKey: process.env.REACT_APP_OPENAI_API_KEY,
       });
       const openai = new OpenAIApi(configuration);
       
       const response = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: "Hello. I am an elderly person. The following is the speech-to-text transcription I am having with an unknown caller right now. Could you alert me with a \"all good\" or \"potential danger\" if any parts of the call suggest malicious intent from the other person? ${stt_result}",
+        prompt: `This is the speech-to-text transcription I am having with an unknown caller right now: ${stt_result} Could you tell me if this is "good" or a "scam"? Please ONLY respond with either "good" or "scam". Thanks.`,
         temperature: 0.9,
         max_tokens: 150,
         top_p: 1,
-        frequency_penalty: 0,
+        frequency_penalty: 0.0,
         presence_penalty: 0.6,
         stop: [" Human:", " AI:"],
       });
@@ -28,10 +31,13 @@ export default function RenderChatGPT({stt_result}) {
     const [response, setResponse] = React.useState("");
 
     React.useEffect(() => {
-        CallChatGPTAPI(stt_result).then((ret) => {
-            console.log(ret);
-          setResponse(ret);
+        if (!seen.has(stt_result)) {
+          seen.add(stt_result);
+          CallChatGPTAPI(stt_result).then((ret) => {
+              console.log(ret);
+            setResponse(ret);
         });
+        }
       }, [stt_result]);
 
     return (
@@ -39,7 +45,7 @@ export default function RenderChatGPT({stt_result}) {
             <li>
                 {stt_result}
             </li>
-            <li key={uuidv4()}>
+            <li>
                 {response}
             </li>
         </ul>
